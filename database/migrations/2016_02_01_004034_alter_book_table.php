@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInventoryTable extends Migration
+class AlterBookTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,9 @@ class CreateInventoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('inventory', function(Blueprint $table){
-          $table->increments('id');
-          $table->integer('distributor_id');
-          $table->string('title');
-          $table->integer('quantity');
-          $table->timestamps();
+        Schema::table('books', function ($table) {
+            $table->integer('penerbit_id');
+            $table->text('sinopsis');
         });
     }
 
@@ -28,6 +25,6 @@ class CreateInventoryTable extends Migration
      */
     public function down()
     {
-        Schema::drop('inventory');
+        //
     }
 }

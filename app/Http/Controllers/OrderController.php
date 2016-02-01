@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\BookOrder;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Inventory;
+use App\Models\HistoryOrder;
 
 use Auth;
 use Validator;
@@ -15,8 +17,13 @@ use Validator;
 class OrderController extends BaseController {
 
   public function dashboard(){
-      $order = BookOrder::all();
+      $order = BookOrder::orderBy('id', 'desc')->get();
       return view('order/index', compact('order'));
+    }
+
+    public function history(){
+      $order = HistoryOrder::orderBy('id', 'desc')->get();
+      return view('historyorder/index', compact('order'));
     }
 
   public function postOrder(Request $req){
@@ -43,13 +50,6 @@ class OrderController extends BaseController {
          return redirect()->route('index')->with('error','Your cart is empty.');
        }
 
-      // $order = Order::create(
-      //   array(
-      //   'member_id'=>$member_id,
-      //   'address'=>$address,
-      //   'total'=>$cart_total
-      //   ));
-
        $order = new Order;
        $order->member_id = $member_id;
        $order->address = $address;
@@ -66,12 +66,37 @@ class OrderController extends BaseController {
           'created_at'=>date_format($date, 'Y-m-d H:i:s'),
           'updated_at'=>date_format($date, 'Y-m-d H:i:s')
           ));
-
       }
       
       Cart::where('member_id','=',$member_id)->delete();
 
       return redirect()->route('index')->with('message','Your order processed successfully.');
+  }
+
+  public function orderConfirmed($id){
+      $bo = BookOrder::findorfail($id);
+      $inv = Inventory::findorfail($bo->Books->Inventory->id);
+      $inv2 = Inventory::findorfail($bo->Books->Inventory->id);
+      $inv->stock = $inv2->stock - $bo->amount;
+      $order = new HistoryOrder;
+      $order->book_id = $bo->book_id;
+      $order->order_id = $bo->order_id;
+      $order->amount = $bo->amount;
+      $order->price = $bo->price;
+      $order->total = $bo->total;
+      $order->created_at = $bo->created_at;
+      $order->updated_at = $bo->updated_at;
+      if($inv->save()){
+            $order->save();
+            $bo->delete();
+      }
+      return redirect('/backend/order');
+  }
+
+  public function destroy($id){
+      $inv = BookOrder::findorfail($id);
+      $inv->delete();
+      return redirect('/backend/order');
   }
 
 

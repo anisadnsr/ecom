@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'url' => 'http://localhost',
+    'url' => 'http://ecom.app/',
 
     /*
     |--------------------------------------------------------------------------
@@ -207,6 +207,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
 
         'Image'     => Intervention\Image\Facades\Image::class,
+
 
     ],
 

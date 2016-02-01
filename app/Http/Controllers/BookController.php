@@ -65,7 +65,13 @@ class BookController extends BaseController{
 
                 $books->cover = $fileName;
         }
-  		if($books->save()) return redirect('/backend/book');
+  		if($books->save()){
+        $inventory = new Inventory;
+        $inventory->book_id = $books->id;
+        $inventory->stock = 0;
+        $inventory->quota = 0;
+        if($inventory->save()) return redirect('/backend/book');
+      }
   	}
 
   	public function update(Request $req, $id){

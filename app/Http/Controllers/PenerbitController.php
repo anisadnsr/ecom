@@ -15,13 +15,15 @@ class PenerbitController extends BaseController{
 
   	public function create(){
   		$penerbit = new Penerbit;
+      $mode = "Membuat";
 
-  		return view('penerbit/_form', compact('penerbit'));
+  		return view('penerbit/_form', compact('penerbit', 'mode'));
   	}
 
   	public function edit($id){
+      $mode = "Merubah";
   		$penerbit = Penerbit::findorFail($id);
-  		return view('penerbit/_form', compact('penerbit'));
+  		return view('penerbit/_form', compact('penerbit', 'mode'));
   	}
 
   	public function store(Request $req){

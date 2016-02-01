@@ -15,13 +15,14 @@ class AuthorController extends BaseController{
 
   	public function create(){
   		$author = new Author;
-
-  		return view('author/_form', compact('author'));
+      $mode = "Membuat";
+  		return view('author/_form', compact('author', 'mode'));
   	}
 
   	public function edit($id){
   		$author = Author::findorFail($id);
-  		return view('author/_form', compact('author'));
+      $mode = "Merubah";
+  		return view('author/_form', compact('author','mode'));
   	}
 
   	public function store(Request $req){

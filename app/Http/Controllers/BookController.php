@@ -18,22 +18,24 @@ class BookController extends BaseController{
 
   	public function create(){
   		$books = new Book;
+      $mode = "Menambah";
   		$authorOption = new Author;
       $penerbitOption = new Penerbit;
   		$authorOption = $authorOption->option();
       $penerbitOption = $penerbitOption->option();
 
-  		return view('book/_form', compact('books', 'authorOption', 'penerbitOption'));
+  		return view('book/_form', compact('books', 'authorOption', 'penerbitOption', 'mode'));
   	}
 
   	public function edit($id){
   		$books = Book::findorFail($id);
   		$authorOption = new Author;
+      $mode = "Mengubah";
       $penerbitOption = new Penerbit;
   		$authorOption = $authorOption->option();
       $penerbitOption = $penerbitOption->option();
 
-  		return view('book/_form', compact('books', 'authorOption', 'penerbitOption'));
+  		return view('book/_form', compact('books', 'authorOption', 'penerbitOption', 'mode'));
   	}
 
     public function detail($id){

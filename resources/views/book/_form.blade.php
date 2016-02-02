@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="name" class="control-label col-xs-2">Author</label>
+        <label for="name" class="control-label col-xs-2">Penerbit</label>
         <div class="col-xs-5">
             {!! Form::select('penerbit_id', $penerbitOption, $books->penerbit_id, ['class'=>'form-control']) !!}
         </div>

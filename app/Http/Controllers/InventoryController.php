@@ -33,7 +33,7 @@ class InventoryController extends BaseController{
 
     public function store(Request $req){
       $inventory = Inventory::where('book_id', $req->input('book_id'))->first();
-      $inventory->stock = $inv->stock + $req->input('stock');
+      $inventory->stock = $inventory->stock + $req->input('stock');
       $inventory->quota = 1;
 
       if($inventory->save()) return redirect('/backend/inventory');

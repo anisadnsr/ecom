@@ -13,7 +13,7 @@ Class Order extends Model {
         return $this->belongsToMany('App\Models\Book')->withPivot('amount','total');
     }
 
-    public function usernya(){
+    public function User(){
 		return $this->belongsTo('App\Models\User', 'member_id');
 	}
 

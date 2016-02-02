@@ -9,11 +9,11 @@ Class HistoryOrder extends Model {
 
 	protected $fillable = array('member_id','address','total');
 
-	public function Books(){
-		return $this->belongsTo('App\Models\Book','book_id');
-	}
+	public function orderItems(){
+        return $this->belongsToMany('App\Models\Book')->withPivot('amount','total');
+    }
 
-	public function order(){
-		return $this->belongsTo('App\Models\Order','order_id');
+    public function User(){
+		return $this->belongsTo('App\Models\User', 'member_id');
 	}
 }

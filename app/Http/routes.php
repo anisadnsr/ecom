@@ -71,8 +71,9 @@ Route::group(['middleware' => 'web'], function () {
 
 	Route::get('/backend/order', ['middleware'=>'auth', 'uses' => 'OrderController@dashboard']);
 	Route::get('/backend/order/delete/{id}', array('before'=>'auth.basic','as'=>'delete_order','uses'=>'OrderController@destroy'));
-	Route::get('/backend/order/confirmed/{id}', array('before'=>'auth.basic','as'=>'confirmed_order','uses'=>'OrderController@orderConfirmed'));
+	Route::get('/backend/order/confirmed/{id}', array('before'=>'auth.basic','as'=>'confirmed','uses'=>'OrderController@orderConfirmed'));
 	Route::get('/backend/order/edit/{id}', array('before'=>'auth.basic','as'=>'edit_order','uses'=>'OrderController@edit'));
+	Route::get('/backend/order/rejected/{id}', array('before'=>'auth.basic','as'=>'rejected','uses'=>'OrderController@rejected'));
 
 	Route::get('/backend/account', [ 'middleware'=>'auth', 'uses' => 'UserController@dashboard']);
 	Route::get('/backend/account/delete/{id}', array('before'=>'auth.basic','as'=>'delete_user','uses'=>'UserController@destroy'));

@@ -18,18 +18,10 @@
           <table class="table table-striped table-condensed">
             <thead>
               <tr>
-              <th>
-              Title
-              </th>
-              <th>
-              Amount
-              </th>
-              <th>
-              Price
-              </th>
-              <th>
-              Total
-              </th>
+                <th>Title</th>
+                <th>Amount</th>
+                <th>Price</th>
+                <th>Total</th>
               </tr>
             </thead>   
             <tbody>
@@ -50,8 +42,18 @@
               <tr>
                 <td><b>Shipping Address</b></td>
                 <td>{{$order->address}}</td>
-                <td></td>
-                <td></td>
+                <td>Status : </td>
+                <td>
+                  @if($order->status==1)
+                    <b>On Processing Order</b>
+                  @elseif($order->status==2)
+                    <b>Order Sent</b>
+                  @elseif($order->status==3)
+                    <b>Order Rejected</b>
+                  @else
+                    <b>Error Occured please contact admin</b>
+                  @endif
+                </td>
               </tr>
             </tbody>
           </table>

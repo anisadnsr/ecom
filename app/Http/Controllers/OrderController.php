@@ -17,13 +17,13 @@ use Validator;
 class OrderController extends BaseController {
 
   public function dashboard(){
-      $order = BookOrder::orderBy('id', 'desc')->get();
-      return view('order/index', compact('order'));
+      $orders = Order::where('status', 1)->get();
+      return view('order/index', compact('orders'));
     }
 
     public function history(){
-      $order = HistoryOrder::orderBy('id', 'desc')->get();
-      return view('historyorder/index', compact('order'));
+      $orders = Order::whereNotIn('status', [1] )->orderBy('id', 'desc')->get();
+      return view('historyorder/index', compact('orders'));
     }
 
   public function postOrder(Request $req){
@@ -78,17 +78,20 @@ class OrderController extends BaseController {
       $inv = Inventory::findorfail($bo->Books->Inventory->id);
       $inv2 = Inventory::findorfail($bo->Books->Inventory->id);
       $inv->stock = $inv2->stock - $bo->amount;
-      $order = new HistoryOrder;
-      $order->book_id = $bo->book_id;
-      $order->order_id = $bo->order_id;
-      $order->amount = $bo->amount;
-      $order->price = $bo->price;
-      $order->total = $bo->total;
-      $order->created_at = $bo->created_at;
-      $order->updated_at = $bo->updated_at;
+      $order = Order::findorfail($bo->order->id);
+      $order->status=2;
+      // $order = new HistoryOrder;
+      // $order->book_id = $bo->book_id;
+      // $order->order_id = $bo->order_id;
+      // $order->amount = $bo->amount;
+      // $order->price = $bo->price;
+      // $order->total = $bo->total;
+      // $order->created_at = $bo->created_at;
+      // $order->updated_at = $bo->updated_at;
       if($inv->save()){
             $order->save();
-            $bo->delete();
+            //$rd->save();
+            //$bo->delete();
       }
       return redirect('/backend/order');
   }
@@ -99,22 +102,40 @@ class OrderController extends BaseController {
       return redirect('/backend/order');
   }
 
+  public function rejected($id){
+      $bo = BookOrder::findorfail($id);
+      $inv = Inventory::findorfail($bo->Books->Inventory->id);
+      $inv2 = Inventory::findorfail($bo->Books->Inventory->id);
+      $inv->stock = $inv2->stock - $bo->amount;
+      $order = Order::findorfail($bo->bo->order->id);
+      $order->status=3;
+      // $order->book_id = $bo->book_id;
+      // $order->order_id = $bo->order_id;
+      // $order->amount = $bo->amount;
+      // $order->price = $bo->price;
+      // $order->total = $bo->total;
+      // $order->created_at = $bo->created_at;
+      // $order->updated_at = $bo->updated_at;
+      if($inv->save()){
+            $order->save();
+            //$rd->save();
+            //$bo->delete();
+      }
+      return redirect('/backend/order');
+  }
+
 
   public function getIndex(){
 
     $member_id = Auth::user()->id;
 
     if(Auth::user()->admin){
-
       $orders=Order::all();
-
     }else{
-
       $orders=Order::with('orderItems')->where('member_id','=',$member_id)->get();
     }
 
     if(!$orders){
-
       return redirect()->route('index')->with('error','There is no order.');
     }
     

@@ -10,14 +10,12 @@
       <tr>
         <td><b>Buku</b></td>
         <td><b>Stock</b></td>
-        <td><b>Quota</b></td>
         <td width="150px"><b>Action</b></td>
       </tr>
       @foreach($inventory as $inv)
         <tr>
           <td>{{$inv->Book->title}}</td>
           <td>{{$inv->stock}}</td>
-          <td>{{$inv->quota}}</td>
           <td>
             <a href="{{URL::route('edit_inv',array($inv->id))}}">Edit</a> |
             <a href="{{URL::route('delete_inv',array($inv->id))}}">Delete</a>

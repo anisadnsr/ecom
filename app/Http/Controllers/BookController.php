@@ -18,22 +18,24 @@ class BookController extends BaseController{
 
   	public function create(){
   		$books = new Book;
+      $mode = "Menambah";
   		$authorOption = new Author;
       $penerbitOption = new Penerbit;
   		$authorOption = $authorOption->option();
       $penerbitOption = $penerbitOption->option();
 
-  		return view('book/_form', compact('books', 'authorOption', 'penerbitOption'));
+  		return view('book/_form', compact('books', 'authorOption', 'penerbitOption', 'mode'));
   	}
 
   	public function edit($id){
   		$books = Book::findorFail($id);
   		$authorOption = new Author;
+      $mode = "Mengubah";
       $penerbitOption = new Penerbit;
   		$authorOption = $authorOption->option();
       $penerbitOption = $penerbitOption->option();
 
-  		return view('book/_form', compact('books', 'authorOption', 'penerbitOption'));
+  		return view('book/_form', compact('books', 'authorOption', 'penerbitOption', 'mode'));
   	}
 
     public function detail($id){
@@ -65,7 +67,13 @@ class BookController extends BaseController{
 
                 $books->cover = $fileName;
         }
-  		if($books->save()) return redirect('/backend/book');
+  		if($books->save()){
+        $inventory = new Inventory;
+        $inventory->book_id = $books->id;
+        $inventory->stock = 0;
+        $inventory->quota = 0;
+        if($inventory->save()) return redirect('/backend/book');
+      }
   	}
 
   	public function update(Request $req, $id){

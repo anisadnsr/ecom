@@ -4,7 +4,7 @@
 
 <div class="container" style="width:60%;  outline: 1px solid orange;">
 
-<h1>Menambah Penerbit</h1>
+<h1>{{$mode}} Penerbit</h1>
 
 {!! Form::open(['method'=>'post', 'class'=>'form-horizontal']) !!}
     {!! csrf_field() !!}

@@ -4,7 +4,7 @@
 
 <div class="container" style="width:60%;  outline: 1px solid orange;">
 
-<h1>Daftar Buku</h1>
+<h1>{{$mode }} Buku</h1>
 
 {!! Form::open(['method'=>'post', 'class'=>'form-horizontal', 'files'=>true]) !!}
     {!! csrf_field() !!}

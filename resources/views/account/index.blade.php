@@ -3,8 +3,7 @@
 @section('content')
 
 <div class="container" style="width:60%">
-  <a href="/auth/register" class="pull-right btn btn-primary btn-large col-x-1">Tambah User Baru</a>
-  <h1>Daftar Order</h1>
+  <h1>Daftar User</h1>
   <table class="table">
     <tbody>
       <tr>

@@ -74,11 +74,11 @@ class OrderController extends BaseController {
   }
 
   public function orderConfirmed($id){
-      $bo = BookOrder::findorfail($id);
+      $order = Order::findorfail($id);
+      $bo = BookOrder::findorfail($order->bookOrder->id);
       $inv = Inventory::findorfail($bo->Books->Inventory->id);
       $inv2 = Inventory::findorfail($bo->Books->Inventory->id);
       $inv->stock = $inv2->stock - $bo->amount;
-      $order = Order::findorfail($bo->order->id);
       $order->status=2;
       // $order = new HistoryOrder;
       // $order->book_id = $bo->book_id;
@@ -103,11 +103,12 @@ class OrderController extends BaseController {
   }
 
   public function rejected($id){
-      $bo = BookOrder::findorfail($id);
+      $order = Order::findorfail($id);
+      $bo = BookOrder::findorfail($order->bookOrder->id);
       $inv = Inventory::findorfail($bo->Books->Inventory->id);
       $inv2 = Inventory::findorfail($bo->Books->Inventory->id);
       $inv->stock = $inv2->stock - $bo->amount;
-      $order = Order::findorfail($bo->bo->order->id);
+      //$order = Order::findorfail($bo->order->id);
       $order->status=3;
       // $order->book_id = $bo->book_id;
       // $order->order_id = $bo->order_id;
